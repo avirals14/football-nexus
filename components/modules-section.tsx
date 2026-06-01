@@ -30,6 +30,7 @@ interface Module {
   /** rgba / gradient stops for the hover‑glow border */
   glowFrom: string;
   glowTo: string;
+  status?: "live" | "soon";
 }
 
 const modules: Module[] = [
@@ -40,6 +41,7 @@ const modules: Module[] = [
     accent: "#22c55e",
     glowFrom: "rgba(34,197,94,0.6)",
     glowTo: "rgba(34,197,94,0.0)",
+    status: "live",
   },
   {
     title: "AI Match Commentary",
@@ -48,6 +50,7 @@ const modules: Module[] = [
     accent: "#06b6d4",
     glowFrom: "rgba(6,182,212,0.6)",
     glowTo: "rgba(6,182,212,0.0)",
+    status: "soon",
   },
   {
     title: "Match Predictor",
@@ -56,6 +59,7 @@ const modules: Module[] = [
     accent: "#3b82f6",
     glowFrom: "rgba(59,130,246,0.6)",
     glowTo: "rgba(59,130,246,0.0)",
+    status: "soon",
   },
   {
     title: "Career Replay",
@@ -64,6 +68,7 @@ const modules: Module[] = [
     accent: "#8b5cf6",
     glowFrom: "rgba(139,92,246,0.6)",
     glowTo: "rgba(139,92,246,0.0)",
+    status: "soon",
   },
   {
     title: "Football Knowledge Graph",
@@ -72,6 +77,7 @@ const modules: Module[] = [
     accent: "#a855f7",
     glowFrom: "rgba(168,85,247,0.6)",
     glowTo: "rgba(168,85,247,0.0)",
+    status: "soon",
   },
   {
     title: "Developer API",
@@ -80,6 +86,7 @@ const modules: Module[] = [
     accent: "#14b8a6",
     glowFrom: "rgba(20,184,166,0.6)",
     glowTo: "rgba(20,184,166,0.0)",
+    status: "soon",
   },
 ];
 
@@ -150,24 +157,30 @@ function ModuleCard({ module }: { module: Module }) {
           background: "rgba(15, 15, 20, 0.75)",
         }}
       >
-        {/* Icon */}
-        <div className="relative flex size-12 items-center justify-center rounded-full"
-          style={{
-            background: `rgba(${hexToRgb(module.accent)}, 0.12)`,
-            boxShadow: `0 0 20px rgba(${hexToRgb(module.accent)}, 0.15)`,
-          }}
-        >
-          <Icon
-            className="size-5 transition-transform duration-300 group-hover:scale-110"
-            style={{ color: module.accent }}
-          />
-          {/* Pulse ring on hover */}
-          <span
-            className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        <div className="flex items-start justify-between">
+          <div className="relative flex size-12 items-center justify-center rounded-full"
             style={{
-              boxShadow: `0 0 24px 4px rgba(${hexToRgb(module.accent)}, 0.35)`,
+              background: `rgba(${hexToRgb(module.accent)}, 0.12)`,
+              boxShadow: `0 0 20px rgba(${hexToRgb(module.accent)}, 0.15)`,
             }}
-          />
+          >
+            <Icon
+              className="size-5 transition-transform duration-300 group-hover:scale-110"
+              style={{ color: module.accent }}
+            />
+            {/* Pulse ring on hover */}
+            <span
+              className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                boxShadow: `0 0 24px 4px rgba(${hexToRgb(module.accent)}, 0.35)`,
+              }}
+            />
+          </div>
+          {module.status === "soon" && (
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-white/50 backdrop-blur-sm">
+              Coming Soon
+            </div>
+          )}
         </div>
 
         {/* Text */}

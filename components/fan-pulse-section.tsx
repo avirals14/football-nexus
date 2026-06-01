@@ -77,7 +77,7 @@ const barGrow = (pct: number): Variants => ({
   hidden: { width: "0%" },
   show: {
     width: `${pct}%`,
-    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] as const },
   },
 });
 

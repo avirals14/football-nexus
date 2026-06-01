@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+**Repository:** [github.com/avirals14/football-nexus](https://github.com/avirals14/football-nexus)
+
 ## Getting Started
 
 First, run the development server:

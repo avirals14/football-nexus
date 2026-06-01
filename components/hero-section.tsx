@@ -56,7 +56,7 @@ function Particles() {
             duration: p.duration,
             repeat: Infinity,
             delay: p.delay,
-            ease: [0.2, 0.9, 0.2, 1],
+            ease: [0.2, 0.9, 0.2, 1] as const,
           }}
         />
       ))}
@@ -85,7 +85,7 @@ function AnimatedGrid() {
           transition={{
             duration: 6 + i * 0.6,
             repeat: Infinity,
-            ease: [0.2, 0.9, 0.2, 1],
+            ease: [0.2, 0.9, 0.2, 1] as const,
           }}
         />
       ))}
@@ -105,7 +105,7 @@ function AnimatedGrid() {
           transition={{
             duration: 6 + i * 0.6,
             repeat: Infinity,
-            ease: [0.2, 0.9, 0.2, 1],
+            ease: [0.2, 0.9, 0.2, 1] as const,
           }}
         />
       ))}
@@ -118,7 +118,7 @@ function AnimatedGrid() {
             "linear-gradient(90deg, transparent, #00ff87 40%, #00d4ff 60%, transparent)",
         }}
         animate={{ opacity: [0.08, 0.36, 0.08] }}
-        transition={{ duration: 10, repeat: Infinity, ease: [0.2, 0.9, 0.2, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: [0.2, 0.9, 0.2, 1] as const }}
       />
       <motion.div
         className="absolute bottom-0 left-0 h-px w-full"
@@ -127,7 +127,7 @@ function AnimatedGrid() {
             "linear-gradient(90deg, transparent, #00d4ff 40%, #00ff87 60%, transparent)",
         }}
         animate={{ opacity: [0.06, 0.28, 0.06] }}
-        transition={{ duration: 12, repeat: Infinity, ease: [0.2, 0.9, 0.2, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: [0.2, 0.9, 0.2, 1] as const }}
       />
     </div>
   );
@@ -292,9 +292,21 @@ export function HeroSection() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (!email) return;
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -407,6 +419,8 @@ export function HeroSection() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@email.com"
+                  aria-label="Email address"
+                  id="hero-email"
                   required
                   className="h-14 w-full rounded-2xl border border-white/[0.06] bg-white/[0.02] px-5 text-sm text-white placeholder-white/30 outline-none backdrop-blur-md transition-colors focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30"
                 />

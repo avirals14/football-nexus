@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GitCommit, X, Mail, ExternalLink, Hexagon } from "lucide-react";
+import { Mail, ExternalLink, Hexagon } from "lucide-react";
+import { GithubIcon, TwitterIcon } from "./icons";
 
 const footerSections = [
   {
@@ -18,7 +19,7 @@ const footerSections = [
     links: [
       { label: "Discord", href: "#", external: true },
       { label: "Twitter / X", href: "#", external: true },
-      { label: "GitHub", href: "https://github.com", external: true },
+      { label: "GitHub", href: "https://github.com/avirals14/football-nexus", external: true },
       { label: "Blog", href: "#" },
     ],
   },
@@ -34,16 +35,16 @@ const footerSections = [
 const socialLinks = [
   {
     label: "GitHub",
-    href: "https://github.com",
-    icon: GitCommit,
+    href: "https://github.com/avirals14/football-nexus",
+    icon: GithubIcon,
   },
   {
     label: "Twitter / X",
-    href: "#",
-    icon: X,
+    href: "https://twitter.com",
+    icon: TwitterIcon,
   },
   {
-    label: "Email",
+    label: "Contact",
     href: "mailto:hello@footballnexus.dev",
     icon: Mail,
   },
@@ -65,7 +66,7 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 

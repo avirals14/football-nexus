@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GitCommit, Menu, X, Hexagon } from "lucide-react";
+import { Menu, X, Hexagon } from "lucide-react";
+import { GithubIcon } from "./icons";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -86,7 +87,7 @@ export function Navbar() {
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "glass-card bg-black/60 border-b border-white/[0.06] shadow-[0_1px_20px_rgba(0,0,0,0.4)]"
@@ -127,13 +128,13 @@ export function Navbar() {
           {/* Desktop Right Side */}
           <div className="hidden items-center gap-3 md:flex">
             <a
-              href="https://github.com"
+              href="https://github.com/avirals14/football-nexus"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
               aria-label="GitHub"
             >
-              <GitCommit className="h-[18px] w-[18px]" />
+                      <GithubIcon className="h-[18px] w-[18px]" />
             </a>
             <a
               href="#waitlist"
@@ -185,7 +186,7 @@ export function Navbar() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] as const }}
               className="overflow-hidden border-t border-white/[0.06] bg-black/80 backdrop-blur-xl md:hidden"
               aria-hidden={!mobileOpen}
             >
@@ -198,7 +199,7 @@ export function Navbar() {
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.05, duration: 0.2 }}
-                    ref={index === 0 ? (el) => (firstLinkRef.current = el as HTMLAnchorElement | null) : undefined}
+                    ref={index === 0 ? (el) => { firstLinkRef.current = el as HTMLAnchorElement; } : undefined}
                     className="rounded-lg px-4 py-3 text-sm font-medium text-zinc-400 transition-colors duration-200 hover:bg-white/[0.04] hover:text-white"
                   >
                     {link.label}
@@ -213,7 +214,7 @@ export function Navbar() {
                       className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-400 transition-colors duration-200 hover:text-white"
                       aria-label="GitHub"
                     >
-                      <GitCommit className="h-[18px] w-[18px]" />
+                              <GithubIcon className="h-[18px] w-[18px]" />
                     </a>
                   <a
                     href="#waitlist"

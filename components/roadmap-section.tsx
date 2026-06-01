@@ -326,7 +326,7 @@ function CardContent({
       transition={{
         duration: 0.65,
         delay: 0.15 * index,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       }}
       className={`relative w-full max-w-md rounded-2xl border border-white/[.07] bg-white/[.03] p-6 backdrop-blur-xl transition-colors hover:border-white/[.13] ${
         phase.status === "completed"

@@ -44,10 +44,21 @@ export default function CtaSection() {
     setParticles(p);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -153,6 +164,8 @@ export default function CtaSection() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-label="Email address"
+                id="cta-email"
                 className="h-12 flex-1 rounded-xl border border-white/10 bg-white/[0.05] px-4 text-sm text-white placeholder-zinc-500 outline-none backdrop-blur-sm transition-colors focus:border-green-500/40 focus:ring-1 focus:ring-green-500/20"
               />
               <button
