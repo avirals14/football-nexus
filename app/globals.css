@@ -46,6 +46,12 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Football Nexus brand colors */
+  --color-neon-green: #00ff87;
+  --color-electric-blue: #00d4ff;
+  --color-nexus-dark: #050a0f;
+  --color-nexus-card: rgba(15, 15, 20, 0.75);
 }
 
 :root {
@@ -84,37 +90,69 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #050a0f;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.12 0.005 260);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.12 0.005 260);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: #00ff87;
+  --primary-foreground: #050a0f;
+  --secondary: oklch(0.18 0.005 260);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.18 0.005 260);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: #00d4ff;
+  --accent-foreground: #050a0f;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: #00ff87;
+  --chart-1: #00ff87;
+  --chart-2: #00d4ff;
+  --chart-3: #a855f7;
+  --chart-4: #06b6d4;
+  --chart-5: #22d3ee;
+  --sidebar: oklch(0.12 0.005 260);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-primary: #00ff87;
+  --sidebar-primary-foreground: #050a0f;
+  --sidebar-accent: oklch(0.18 0.005 260);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: #00ff87;
+}
+
+/* Premium visual tokens */
+:root {
+  --premium-space-xs: 6px;
+  --premium-space-sm: 12px;
+  --premium-space-md: 20px;
+  --premium-space-lg: 32px;
+  --premium-space-xl: 48px;
+  --premium-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer components {
+  .glass-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 50px rgba(2,6,23,0.55), inset 0 1px 0 rgba(255,255,255,0.02);
+    backdrop-filter: blur(14px) saturate(120%);
+  }
+
+  .glow-strong {
+    filter: drop-shadow(0 8px 40px rgba(0,255,135,0.12)) drop-shadow(0 8px 80px rgba(0,212,255,0.06));
+  }
+
+  .premium-container {
+    padding-left: var(--premium-space-lg);
+    padding-right: var(--premium-space-lg);
+  }
+
+  .smooth-transform {
+    transition: transform 450ms var(--premium-ease), opacity 300ms var(--premium-ease);
+  }
 }
 
 @layer base {
@@ -125,6 +163,29 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
   }
+}
+
+/* Custom scrollbar for dark theme */
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050a0f;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 135, 0.3);
+  }
+}
+
+/* Selection color */
+::selection {
+  background: rgba(0, 255, 135, 0.2);
+  color: #fff;
 }
