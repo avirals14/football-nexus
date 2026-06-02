@@ -36,3 +36,5 @@ copilot-instructions.md
 # IDE settings
 .vscode/
 .idea/
+
+/plan/
