@@ -1,17 +1,24 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Hexagon } from "lucide-react";
 import { GithubIcon } from "./icons";
 
-const navLinks = [
+const hashLinks = [
   { label: "Features", href: "#features" },
   { label: "Roadmap", href: "#roadmap" },
   { label: "Community", href: "#community" },
 ];
 
+const pageLinks = [
+  { label: "Fan Pulse", href: "/fan-pulse" },
+];
+
 export function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -39,11 +46,22 @@ export function Navbar() {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) => {
-    e.preventDefault();
-    setMobileOpen(false);
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+    // For page links like /fan-pulse, let the browser navigate normally
+    if (!href.startsWith("#")) return;
+
+    // If we're on the home page, smooth-scroll to the section
+    if (isHome) {
+      e.preventDefault();
+      setMobileOpen(false);
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // On other pages, navigate to /#section
+      e.preventDefault();
+      setMobileOpen(false);
+      window.location.href = `/` + href;
     }
   };
 
@@ -66,9 +84,15 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Observe sections to set active link
+  // Observe sections to set active link (only on home page)
   useEffect(() => {
-    const els = navLinks.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
+    if (!isHome) {
+      // On non-home pages, highlight the matching page link
+      const match = pageLinks.find((l) => pathname.startsWith(l.href));
+      if (match) setActive(match.href);
+      return;
+    }
+    const els = hashLinks.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
     if (!els.length) return;
     const obs = new IntersectionObserver(
       (entries) => {
@@ -80,7 +104,7 @@ export function Navbar() {
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, []);
+  }, [isHome, pathname]);
 
   return (
     <>
@@ -110,14 +134,28 @@ export function Navbar() {
 
           {/* Desktop Nav Links */}
           <div className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link) => (
+            {hashLinks.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={isHome ? link.href : `/${link.href}`}
                 onClick={(e) => handleNavClick(e, link.href)}
                 aria-current={active === link.href ? "page" : undefined}
                 className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                   active === link.href ? "text-white font-semibold" : "text-zinc-400 hover:text-white"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+            {pageLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                aria-current={active === link.href ? "page" : undefined}
+                className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                  active === link.href
+                    ? "text-emerald-400 font-semibold"
+                    : "text-zinc-400 hover:text-emerald-300"
                 }`}
               >
                 {link.label}
@@ -191,16 +229,30 @@ export function Navbar() {
               aria-hidden={!mobileOpen}
             >
               <div className="flex flex-col gap-1 px-6 py-4">
-                {navLinks.map((link, index) => (
+                {hashLinks.map((link, index) => (
                   <motion.a
                     key={link.href}
-                    href={link.href}
+                    href={isHome ? link.href : `/${link.href}`}
                     onClick={(e) => handleNavClick(e, link.href)}
                     initial={{ x: -20, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.05, duration: 0.2 }}
                     ref={index === 0 ? (el) => { firstLinkRef.current = el as HTMLAnchorElement; } : undefined}
                     className="rounded-lg px-4 py-3 text-sm font-medium text-zinc-400 transition-colors duration-200 hover:bg-white/[0.04] hover:text-white"
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+                {pageLinks.map((link, index) => (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: (hashLinks.length + index) * 0.05, duration: 0.2 }}
+                    className={`rounded-lg px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-white/[0.04] ${
+                      active === link.href ? "text-emerald-400" : "text-zinc-400 hover:text-emerald-300"
+                    }`}
                   >
                     {link.label}
                   </motion.a>
